@@ -1,5 +1,5 @@
-![Alt text](src/Resources/public/logo.png?raw=true "logo")
+![Alt text](src/Resources/public/rsz-logo.png?raw=true "logo")
 
 
-# Welcome to RSZ Sponsoren
-This bundle is still under construction.
+# RSZ Sponsoren
+Diese Contao Erweiterung bietet ein Sponsoren Backend- und Frontendmodul.
