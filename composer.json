@@ -1,11 +1,12 @@
 {
   "name": "markocupic/rsz-sponsoren-bundle",
-  "description": "RSZ Sponsoren",
+  "description": "RSZ Sponsoren Frontend- und Backend Modul",
   "keywords": [
     "contao",
     "bundle",
-    "tag 1",
-    "tag 2"
+    "RSZ",
+    "Regionalkader Sportklettern Znetralschweiz",
+    "Sponsoren"
   ],
   "type": "contao-bundle",
   "license": "MIT",
