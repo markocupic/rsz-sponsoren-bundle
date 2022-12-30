@@ -2,7 +2,7 @@
 
 <?php $this->block("content"); ?>
 
-<div class="macy-grid-container card-columns position-relative">
+<div class="macy-grid-container ms-0 me-0 card-columns position-relative">
 
     <?php foreach ($this->arrSponsoren as $sponsor): ?>
     <div class="card m-0 p-0 d-flex">
