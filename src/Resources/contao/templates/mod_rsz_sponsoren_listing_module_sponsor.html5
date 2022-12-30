@@ -2,41 +2,53 @@
 
 <?php $this->block("content"); ?>
 
-<div class="card-columns">
-
+<div class="macy-grid-container card-columns">
     <?php foreach ($this->arrSponsoren as $sponsor): ?>
-    <div class="card p-3">
-        <?php if($sponsor->addImage): ?>
-        <?php if($sponsor->website): ?><a href="<?= $sponsor->website ?>"><?php endif; ?><img class="card-img-top img-fluid" src="<?= \FilesModel::findByUuid($sponsor->singleSRC)->path ?>" alt="Logo <?= $sponsor->company ?>"><?php if($sponsor->website): ?></a><?php endif; ?>
-        <?php endif; ?>
-        <div class="card-block">
-            <h2 class="card-title"><?= $sponsor->company ?></h2>
-            <?php if($sponsor->street): ?>
-            <div><?= $sponsor->street ?></div>
+        <div class="card m-0 p-0 d-flex">
+            <div class="p-3" style="border:1px solid lightgrey">
+            <?php if($sponsor->addImage): ?>
+            <div class="ratio ratio-1x1">
+                <div class="d-flex align-items-center">
+                <?php if ($sponsor->website): ?>
+                    <a href="<?= $sponsor->website ?>">
+                        <?php endif; ?>
+                        <img class="card-img-top img-fluid" src="<?= \FilesModel::findByUuid($sponsor->singleSRC)->path ?>" alt="Logo <?= $sponsor->company ?>">
+                        <?php if($sponsor->website): ?>
+                    </a>
+                    <?php endif; ?>
+                </div>
+            </div>
             <?php endif; ?>
-            <?php if($sponsor->postal): ?>
-            <div><?= $sponsor->postal ?> <?= $sponsor->city ?></div>
-            <?php endif; ?>
-            <?php if($sponsor->info1): ?>
-            <div><?= $sponsor->info1 ?></div>
-            <?php endif; ?>
-            <?php if($sponsor->info2): ?>
-            <div><?= $sponsor->info2 ?></div>
-            <?php endif; ?>
-            <?php if($sponsor->info3): ?>
-            <div><?= $sponsor->info3 ?></div>
-            <?php endif; ?>
-            <?php if($sponsor->phone): ?>
-            <div><?= $sponsor->phone ?></div>
-            <?php endif; ?>
-            <?php if($sponsor->website): ?>
-            <div><a href="<?= $sponsor->website ?>"><?= $sponsor->website ?></a></div>
-            <?php endif; ?>
+            <div class="card-block">
+                <div class="--rsz_sponsoren_title">
+                    <h3 class="mt-3 card-title"><?= $sponsor->company ?></h3>
+                </div>
+                <?php if($sponsor->street): ?>
+                <div><?= $sponsor->street ?></div>
+                <?php endif; ?>
+                <?php if($sponsor->postal): ?>
+                <div><?= $sponsor->postal ?> <?= $sponsor->city ?></div>
+                <?php endif; ?>
+                <?php if($sponsor->info1): ?>
+                <div><?= $sponsor->info1 ?></div>
+                <?php endif; ?>
+                <?php if($sponsor->info2): ?>
+                <div><?= $sponsor->info2 ?></div>
+                <?php endif; ?>
+                <?php if($sponsor->info3): ?>
+                <div><?= $sponsor->info3 ?></div>
+                <?php endif; ?>
+                <?php if($sponsor->phone): ?>
+                <div><?= $sponsor->phone ?></div>
+                <?php endif; ?>
+                <?php if($sponsor->website): ?>
+                <div><a href="<?= $sponsor->website ?>"><?= $sponsor->website ?></a></div>
+                <?php endif; ?>
+            </div>
         </div>
     </div>
     <?php endforeach; ?>
 </div>
-
 
 <?php $this->endblock(); ?>
 
