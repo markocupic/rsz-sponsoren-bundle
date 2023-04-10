@@ -1,129 +1,130 @@
 <?php
 
-/**
- * This file is part of a markocupic Contao Bundle
+/*
+ * This file is part of RSZ Sponsoren Bundle.
  *
- * @copyright  Marko Cupic 2020 <m.cupic@gmx.ch>
- * @author     Marko Cupic
- * @package    RSZ Sponsoren
- * @license    MIT
- * @see        https://github.com/markocupic/rsz-sponsoren-bundle
- *
+ * (c) Marko Cupic 2023 <m.cupic@gmx.ch>
+ * @license MIT
+ * For the full copyright and license information,
+ * please view the LICENSE file that was distributed with this source code.
+ * @link https://github.com/markocupic/rsz-sponsoren-bundle
  */
 
-/**
- * Table tl_sponsoren
- */
+use Contao\Backend;
+use Contao\CoreBundle\Security\ContaoCorePermissions;
+use Contao\DC_Table;
+use Contao\DataContainer;
+use Contao\Image;
+use Contao\StringUtil;
+use Contao\System;
+
 $GLOBALS['TL_DCA']['tl_sponsoren'] = [
-    // Config
     'config'      => [
-        'dataContainer'    => 'Table',
+        'dataContainer'    => DC_Table::class,
         'enableVersioning' => true,
-
-        'sql' => [
+        'sql'              => [
             'keys' => [
                 'id'    => 'primary',
                 'email' => 'index',
-            ]
-        ]
+            ],
+        ],
     ],
-    // List
     'list'        => [
         'sorting'           => [
-            'mode'        => 2,
+            'mode'        => DataContainer::MODE_SORTABLE,
             'fields'      => ['company DESC'],
             'flag'        => 1,
-            'panelLayout' => 'filter;sort,search,limit'
+            'panelLayout' => 'filter;sort,search,limit',
         ],
         'label'             => [
             'fields'      => ['type,company'],
             'showColumns' => true,
-            //'label_callback'          => array('tl_sponsoren', 'addIcon')
         ],
         'global_operations' => [
             'all' => [
                 'label'      => &$GLOBALS['TL_LANG']['MSC']['all'],
                 'href'       => 'act=select',
                 'class'      => 'header_edit_all',
-                'attributes' => 'onclick="Backend.getScrollOffset()" accesskey="e"'
-            ]
+                'attributes' => 'onclick="Backend.getScrollOffset()" accesskey="e"',
+            ],
         ],
         'operations'        => [
             'edit'   => [
                 'href' => 'act=edit',
-                'icon' => 'edit.gif'
+                'icon' => 'edit.svg',
             ],
             'copy'   => [
                 'href' => 'act=copy',
-                'icon' => 'copy.gif'
+                'icon' => 'copy.svg',
             ],
             'delete' => [
                 'href'       => 'act=delete',
-                'icon'       => 'delete.gif',
-                'attributes' => 'onclick="if(!confirm(\'' . $GLOBALS['TL_LANG']['MSC']['deleteConfirm'] . '\'))return false;Backend.getScrollOffset()"'
+                'icon'       => 'delete.svg',
+                'attributes' => 'onclick="if(!confirm(\''.($GLOBALS['TL_LANG']['MSC']['deleteConfirm'] ?? null).'\'))return false;Backend.getScrollOffset()"',
             ],
             'toggle' => [
-                'icon'            => 'visible.gif',
-                'attributes'      => 'onclick="Backend.getScrollOffset();return AjaxRequest.toggleVisibility(this,%s)"',
-                'button_callback' => ['tl_sponsoren', 'toggleIcon']
+                'href'            => 'act=toggle&amp;field=invisible',
+                'icon'            => 'visible.svg',
+                'button_callback' => ['tl_sponsoren', 'toggleIcon'],
             ],
             'show'   => [
                 'href' => 'act=show',
-                'icon' => 'show.gif'
-            ]
-        ]
+                'icon' => 'show.svg',
+            ],
+        ],
     ],
-    // Palettes
     'palettes'    => [
         '__selector__' => ['addImage'],
-        'default'      => '{type_legend},type;{company_legend},company,street,postal,city,phone,email,website,info1,info2,info3;{image_legend},addImage',
+        'default'      => '
+        {type_legend},type;
+        {company_legend},company,street,postal,city,phone,email,website,info1,info2,info3;
+        {image_legend},addImage
+        ',
     ],
-    // Subpalettes
     'subpalettes' => [
         'addImage' => 'singleSRC',
     ],
-    // Fields
     'fields'      => [
         'id'        => [
-            'sql' => "int(10) unsigned NOT NULL auto_increment"
+            'sql' => "int(10) unsigned NOT NULL auto_increment",
         ],
         'tstamp'    => [
-            'sql' => "int(10) unsigned NOT NULL default '0'"
+            'sql' => "int(10) unsigned NOT NULL default '0'",
         ],
         'type'      => [
             'exclude'   => true,
             'search'    => true,
             'filter'    => true,
             'sorting'   => true,
-            'flag'      => 1,
+            'flag'      => DataContainer::MODE_SORTED,
             'inputType' => 'select',
             'options'   => ['goenner', 'sponsor'],
             'reference' => &$GLOBALS['TL_LANG']['tl_sponsoren'],
             'eval'      => ['maxlength' => 255, 'tl_class' => 'w50'],
-            'sql'       => "varchar(255) NOT NULL default ''"
+            'sql'       => "varchar(255) NOT NULL default ''",
         ],
         'company'   => [
             'exclude'   => true,
             'search'    => true,
             'sorting'   => true,
-            'flag'      => 1,
+            'flag'      => DataContainer::MODE_SORTED,
             'inputType' => 'text',
             'eval'      => ['maxlength' => 255, 'tl_class' => 'w50'],
-            'sql'       => "varchar(255) NOT NULL default ''"
+            'sql'       => "varchar(255) NOT NULL default ''",
         ],
         'street'    => [
             'exclude'   => true,
             'search'    => true,
             'inputType' => 'text',
             'eval'      => ['maxlength' => 255, 'tl_class' => 'w50'],
-            'sql'       => "varchar(255) NOT NULL default ''"
+            'sql'       => "varchar(255) NOT NULL default ''",
         ],
         'postal'    => [
             'exclude'   => true,
             'search'    => true,
             'inputType' => 'text',
             'eval'      => ['maxlength' => 32, 'tl_class' => 'w50'],
-            'sql'       => "varchar(32) NOT NULL default ''"
+            'sql'       => "varchar(32) NOT NULL default ''",
         ],
         'city'      => [
             'exclude'   => true,
@@ -132,106 +133,93 @@ $GLOBALS['TL_DCA']['tl_sponsoren'] = [
             'sorting'   => true,
             'inputType' => 'text',
             'eval'      => ['maxlength' => 255, 'tl_class' => 'w50'],
-            'sql'       => "varchar(255) NOT NULL default ''"
+            'sql'       => "varchar(255) NOT NULL default ''",
         ],
         'phone'     => [
             'exclude'   => true,
             'search'    => true,
             'inputType' => 'text',
             'eval'      => ['maxlength' => 64, 'rgxp' => 'phone', 'decodeEntities' => true, 'tl_class' => 'w50'],
-            'sql'       => "varchar(64) NOT NULL default ''"
+            'sql'       => "varchar(64) NOT NULL default ''",
         ],
         'mobile'    => [
             'exclude'   => true,
             'search'    => true,
             'inputType' => 'text',
             'eval'      => ['maxlength' => 64, 'rgxp' => 'phone', 'decodeEntities' => true, 'tl_class' => 'w50'],
-            'sql'       => "varchar(64) NOT NULL default ''"
+            'sql'       => "varchar(64) NOT NULL default ''",
         ],
         'fax'       => [
             'exclude'   => true,
             'search'    => true,
             'inputType' => 'text',
             'eval'      => ['maxlength' => 64, 'rgxp' => 'phone', 'decodeEntities' => true, 'tl_class' => 'w50'],
-            'sql'       => "varchar(64) NOT NULL default ''"
+            'sql'       => "varchar(64) NOT NULL default ''",
         ],
         'email'     => [
             'exclude'   => true,
             'search'    => true,
             'inputType' => 'text',
             'eval'      => ['maxlength' => 255, 'rgxp' => 'email', 'decodeEntities' => true, 'tl_class' => 'w50'],
-            'sql'       => "varchar(255) NOT NULL default ''"
+            'sql'       => "varchar(255) NOT NULL default ''",
         ],
         'website'   => [
             'exclude'   => true,
             'search'    => true,
             'inputType' => 'text',
             'eval'      => ['rgxp' => 'url', 'maxlength' => 255, 'tl_class' => 'w50'],
-            'sql'       => "varchar(255) NOT NULL default ''"
+            'sql'       => "varchar(255) NOT NULL default ''",
         ],
         'info1'     => [
             'exclude'   => true,
             'search'    => true,
             'sorting'   => true,
-            'flag'      => 1,
+            'flag'      => DataContainer::MODE_SORTED,
             'inputType' => 'text',
             'eval'      => ['maxlength' => 255, 'tl_class' => 'w50'],
-            'sql'       => "varchar(255) NOT NULL default ''"
+            'sql'       => "varchar(255) NOT NULL default ''",
         ],
         'info2'     => [
             'exclude'   => true,
             'search'    => true,
             'sorting'   => true,
-            'flag'      => 1,
+            'flag'      => DataContainer::MODE_SORTED,
             'inputType' => 'text',
             'eval'      => ['maxlength' => 255, 'tl_class' => 'w50'],
-            'sql'       => "varchar(255) NOT NULL default ''"
+            'sql'       => "varchar(255) NOT NULL default ''",
         ],
         'info3'     => [
             'exclude'   => true,
             'search'    => true,
             'sorting'   => true,
-            'flag'      => 1,
+            'flag'      => DataContainer::MODE_SORTED,
             'inputType' => 'text',
             'eval'      => ['maxlength' => 255, 'tl_class' => 'w50'],
-            'sql'       => "varchar(255) NOT NULL default ''"
+            'sql'       => "varchar(255) NOT NULL default ''",
         ],
         'addImage'  => [
             'exclude'   => true,
             'inputType' => 'checkbox',
             'eval'      => ['submitOnChange' => true],
-            'sql'       => "char(1) NOT NULL default ''"
+            'sql'       => "char(1) NOT NULL default ''",
         ],
         'singleSRC' => [
             'exclude'   => true,
             'inputType' => 'fileTree',
             'eval'      => ['extensions' => 'jpg,png,svg,gif', 'filesOnly' => true, 'fieldType' => 'radio', 'mandatory' => true, 'tl_class' => 'clr'],
-            'sql'       => "binary(16) NULL"
+            'sql'       => "binary(16) NULL",
         ],
         'disable'   => [
             'exclude'   => true,
             'filter'    => true,
             'inputType' => 'checkbox',
-            'sql'       => "char(1) NOT NULL default ''"
-        ]
-    ]
+            'sql'       => "char(1) NOT NULL default ''",
+        ],
+    ],
 ];
 
-/**
- * Class tl_sponsoren
- */
 class tl_sponsoren extends Backend
 {
-
-    /**
-     * Import the back end user object
-     */
-    public function __construct()
-    {
-
-        parent::__construct();
-        $this->import('BackendUser', 'User');
-    }
 
     /**
      * Return the "toggle visibility" button
@@ -242,84 +230,29 @@ class tl_sponsoren extends Backend
      * @param string $title
      * @param string $icon
      * @param string $attributes
+     *
      * @return string
      */
     public function toggleIcon($row, $href, $label, $title, $icon, $attributes)
     {
+        $security = System::getContainer()->get('security.helper');
 
-        if (strlen(\Contao\Input::get('tid')))
-        {
-            $this->toggleVisibility(\Contao\Input::get('tid'), (\Contao\Input::get('state') == 1), (@func_get_arg(12) ?: null));
-            $this->redirect($this->getReferer());
-        }
-
-        // Check permissions AFTER checking the tid, so hacking attempts are logged
-        if (!$this->User->hasAccess('tl_sponsoren::disable', 'alexf'))
-        {
+        if (!$security->isGranted(\Contao\CoreBundle\Security\ContaoCorePermissions::USER_CAN_EDIT_FIELD_OF_TABLE, 'tl_sponsoren::invisible')) {
             return '';
         }
 
-        $href .= '&amp;tid=' . $row['id'] . '&amp;state=' . $row['disable'];
-
-        if ($row['disable'])
-        {
-            $icon = 'invisible.gif';
+        // Disable the button if the element type is not allowed
+        if (!$security->isGranted(ContaoCorePermissions::USER_CAN_ACCESS_ELEMENT_TYPE, $row['type'])) {
+            return Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)).' ';
         }
 
-        return '<a href="' . $this->addToUrl($href) . '" title="' . specialchars($title) . '"' . $attributes . '>' . Image::getHtml($icon, $label, 'data-state="' . ($row['disable'] ? 0 : 1) . '"') . '</a> ';
-    }
+        $href .= '&amp;id='.$row['id'];
 
-    /**
-     * Disable/enable a user group
-     *
-     * @param integer $intId
-     * @param boolean $blnVisible
-     * @param DataContainer $dc
-     */
-    public function toggleVisibility($intId, $blnVisible, DataContainer $dc = null)
-    {
-
-        // Set the ID and action
-        \Contao\Input::setGet('id', $intId);
-        \Contao\Input::setGet('act', 'toggle');
-
-        if ($dc)
-        {
-            $dc->id = $intId; // see #8043
+        if ($row['invisible']) {
+            $icon = 'invisible.svg';
         }
 
-        // Check the field access
-        if (!$this->User->hasAccess('tl_sponsoren::disable', 'alexf'))
-        {
-            $this->log('Not enough permissions to activate/deactivate sponsoren ID "' . $intId . '"', __METHOD__, TL_ERROR);
-            $this->redirect('contao/main.php?act=error');
-        }
-
-        $objVersions = new Versions('tl_sponsoren', $intId);
-        $objVersions->initialize();
-
-        // Trigger the save_callback
-        if (is_array($GLOBALS['TL_DCA']['tl_sponsoren']['fields']['disable']['save_callback']))
-        {
-            foreach ($GLOBALS['TL_DCA']['tl_sponsoren']['fields']['disable']['save_callback'] as $callback)
-            {
-                if (is_array($callback))
-                {
-                    $this->import($callback[0]);
-                    $blnVisible = $this->{$callback[0]}->{$callback[1]}($blnVisible, ($dc ?: $this));
-                }
-                elseif (is_callable($callback))
-                {
-                    $blnVisible = $callback($blnVisible, ($dc ?: $this));
-                }
-            }
-        }
-
-        // Update the database
-        $this->Database->prepare("UPDATE tl_sponsoren SET tstamp=?, disable='" . ($blnVisible ? '' : 1) . "' WHERE id=?")
-            ->execute(time(), $intId);
-
-        $objVersions->create();
+        return '<a href="'.$this->addToUrl($href).'" title="'.StringUtil::specialchars($title).'" onclick="Backend.getScrollOffset();return AjaxRequest.toggleField(this,true)">'.Image::getHtml($icon, $label, 'data-icon="'.Image::getPath('visible.svg').'" data-icon-disabled="'.Image::getPath('invisible.svg').'" data-state="'.($row['invisible'] ? 0 : 1).'"').'</a> ';
     }
 
 }

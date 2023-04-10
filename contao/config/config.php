@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /*
  * This file is part of RSZ Sponsoren Bundle.
  *
@@ -12,10 +10,16 @@ declare(strict_types=1);
  * @link https://github.com/markocupic/rsz-sponsoren-bundle
  */
 
-namespace Markocupic\RszSponsorenBundle;
+use Markocupic\RszSponsorenBundle\Model\SponsorenModel;
 
-use Symfony\Component\HttpKernel\Bundle\Bundle;
+/**
+ * Backend modules
+ */
+$GLOBALS['BE_MOD']['rsz_tools']['rsz_sponsoren'] = [
+    'tables' => ['tl_sponsoren'],
+];
 
-class MarkocupicRszSponsorenBundle extends Bundle
-{
-}
+/**
+ * Models
+ */
+$GLOBALS['TL_MODELS']['tl_sponsoren'] = SponsorenModel::class;

@@ -13,7 +13,7 @@
                 <?php if ($sponsor->website): ?>
                     <a href="<?= $sponsor->website ?>">
                         <?php endif; ?>
-                        <img class="card-img-top img-fluid" src="<?= \FilesModel::findByUuid($sponsor->singleSRC)->path ?>" alt="Logo <?= $sponsor->company ?>">
+                        <img class="card-img-top img-fluid" src="<?= \Contao\FilesModel::findByUuid($sponsor->singleSRC)->path ?>" alt="Logo <?= $sponsor->company ?>">
                         <?php if ($sponsor->website): ?>
                     </a>
                     <?php endif; ?>

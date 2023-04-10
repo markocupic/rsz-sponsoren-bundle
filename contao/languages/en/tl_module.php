@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /*
  * This file is part of RSZ Sponsoren Bundle.
  *
@@ -12,10 +10,9 @@ declare(strict_types=1);
  * @link https://github.com/markocupic/rsz-sponsoren-bundle
  */
 
-namespace Markocupic\RszSponsorenBundle;
+/**
+ * Fields
+ */
+$GLOBALS['TL_LANG']['tl_module']['rszSponsorLevel'] = ['Sponsor-Level', 'Geben Sie das Sponsor-Level an.'];
 
-use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class MarkocupicRszSponsorenBundle extends Bundle
-{
-}

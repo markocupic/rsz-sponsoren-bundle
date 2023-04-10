@@ -1,30 +1,22 @@
 <?php
 
-/**
- * This file is part of a markocupic Contao Bundle
- *
- * @copyright  Marko Cupic 2020 <m.cupic@gmx.ch>
- * @author     Marko Cupic
- * @package    RSZ Sponsoren
- * @license    MIT
- * @see        https://github.com/markocupic/rsz-sponsoren-bundle
- *
- */
-
 declare(strict_types=1);
+
+/*
+ * This file is part of RSZ Sponsoren Bundle.
+ *
+ * (c) Marko Cupic 2023 <m.cupic@gmx.ch>
+ * @license MIT
+ * For the full copyright and license information,
+ * please view the LICENSE file that was distributed with this source code.
+ * @link https://github.com/markocupic/rsz-sponsoren-bundle
+ */
 
 namespace Markocupic\RszSponsorenBundle\Model;
 
 use Contao\Model;
 
-/**
- * Class SponsorenModel
- *
- * @package Markocupic\RszSponsorenBundle\Model
- */
 class SponsorenModel extends Model
 {
     protected static $strTable = 'tl_sponsoren';
-
 }
-
