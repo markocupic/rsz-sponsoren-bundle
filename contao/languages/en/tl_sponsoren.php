@@ -20,7 +20,7 @@ $GLOBALS['TL_LANG']['tl_sponsoren']['image_legend'] = 'Firmeneinstellungen';
 /**
  * Fields
  */
-$GLOBALS['TL_LANG']['tl_sponsoren']['type'] = ['Typ'];
+$GLOBALS['TL_LANG']['tl_sponsoren']['type'] = ['Typ','Geben Sie den Typ ein.'];
 $GLOBALS['TL_LANG']['tl_sponsoren']['company'] = ['Firmenname'];
 $GLOBALS['TL_LANG']['tl_sponsoren']['street'] = ['Strasse'];
 $GLOBALS['TL_LANG']['tl_sponsoren']['postal'] = ['PLZ'];

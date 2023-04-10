@@ -10,13 +10,9 @@
  * @link https://github.com/markocupic/rsz-sponsoren-bundle
  */
 
-use Contao\Backend;
-use Contao\CoreBundle\Security\ContaoCorePermissions;
 use Contao\DC_Table;
 use Contao\DataContainer;
-use Contao\Image;
-use Contao\StringUtil;
-use Contao\System;
+use Markocupic\RszSponsorenBundle\DataContainer\Sponsoren;
 
 $GLOBALS['TL_DCA']['tl_sponsoren'] = [
     'config'      => [
@@ -33,11 +29,12 @@ $GLOBALS['TL_DCA']['tl_sponsoren'] = [
         'sorting'           => [
             'mode'        => DataContainer::MODE_SORTABLE,
             'fields'      => ['company DESC'],
-            'flag'        => 1,
+            'flag'        => DataContainer::SORT_INITIAL_LETTER_ASC,
             'panelLayout' => 'filter;sort,search,limit',
         ],
         'label'             => [
-            'fields'      => ['type,company'],
+            'fields'      => ['company', 'type'],
+            'format'      => '%s %s',
             'showColumns' => true,
         ],
         'global_operations' => [
@@ -65,7 +62,7 @@ $GLOBALS['TL_DCA']['tl_sponsoren'] = [
             'toggle' => [
                 'href'            => 'act=toggle&amp;field=invisible',
                 'icon'            => 'visible.svg',
-                'button_callback' => ['tl_sponsoren', 'toggleIcon'],
+                'button_callback' => [Sponsoren::class, 'toggleIcon'],
             ],
             'show'   => [
                 'href' => 'act=show',
@@ -209,50 +206,12 @@ $GLOBALS['TL_DCA']['tl_sponsoren'] = [
             'eval'      => ['extensions' => 'jpg,png,svg,gif', 'filesOnly' => true, 'fieldType' => 'radio', 'mandatory' => true, 'tl_class' => 'clr'],
             'sql'       => "binary(16) NULL",
         ],
-        'disable'   => [
+        'invisible' => [
             'exclude'   => true,
             'filter'    => true,
+            'toggle'    => true,
             'inputType' => 'checkbox',
             'sql'       => "char(1) NOT NULL default ''",
         ],
     ],
 ];
-
-class tl_sponsoren extends Backend
-{
-
-    /**
-     * Return the "toggle visibility" button
-     *
-     * @param array $row
-     * @param string $href
-     * @param string $label
-     * @param string $title
-     * @param string $icon
-     * @param string $attributes
-     *
-     * @return string
-     */
-    public function toggleIcon($row, $href, $label, $title, $icon, $attributes)
-    {
-        $security = System::getContainer()->get('security.helper');
-
-        if (!$security->isGranted(\Contao\CoreBundle\Security\ContaoCorePermissions::USER_CAN_EDIT_FIELD_OF_TABLE, 'tl_sponsoren::invisible')) {
-            return '';
-        }
-
-        // Disable the button if the element type is not allowed
-        if (!$security->isGranted(ContaoCorePermissions::USER_CAN_ACCESS_ELEMENT_TYPE, $row['type'])) {
-            return Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)).' ';
-        }
-
-        $href .= '&amp;id='.$row['id'];
-
-        if ($row['invisible']) {
-            $icon = 'invisible.svg';
-        }
-
-        return '<a href="'.$this->addToUrl($href).'" title="'.StringUtil::specialchars($title).'" onclick="Backend.getScrollOffset();return AjaxRequest.toggleField(this,true)">'.Image::getHtml($icon, $label, 'data-icon="'.Image::getPath('visible.svg').'" data-icon-disabled="'.Image::getPath('invisible.svg').'" data-state="'.($row['invisible'] ? 0 : 1).'"').'</a> ';
-    }
-
-}

@@ -42,7 +42,7 @@ class RszSponsorenListingModuleController extends AbstractFrontendModuleControll
         $arrSponsoren = [];
 
         $result = $this->connection->executeQuery(
-            'SELECT id FROM tl_sponsoren WHERE type = ? AND disable = ?',
+            'SELECT id FROM tl_sponsoren WHERE type = ? AND invisible = ?',
             [
                 $model->rszSponsorLevel,
                 '',

@@ -6,4 +6,4 @@ services:
 
     Markocupic\RszSponsorenBundle\:
         resource: ../src/
-        exclude: ../src/{DependencyInjection,ContaoManager,Model}
+        exclude: ../src/{DependencyInjection,ContaoManager}

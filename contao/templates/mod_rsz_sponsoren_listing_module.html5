@@ -7,7 +7,7 @@
     <?php foreach ($this->arrSponsoren as $sponsor): ?>
     <div class="card p-3">
         <?php if ($sponsor->addImage): ?>
-        <?php if ($sponsor->website): ?><a href="<?= $sponsor->website ?>"><?php endif; ?><img class="card-img-top img-fluid" src="<?= \FilesModel::findByUuid($sponsor->singleSRC)->path ?>" alt="Logo <?= $sponsor->company ?>"><?php if ($sponsor->website): ?></a><?php endif; ?>
+        <?php if ($sponsor->website): ?><a href="<?= $sponsor->website ?>"><?php endif; ?><img class="card-img-top img-fluid" src="<?= \Contao\FilesModel::findByUuid($sponsor->singleSRC)->path ?>" alt="Logo <?= $sponsor->company ?>"><?php if ($sponsor->website): ?></a><?php endif; ?>
         <?php endif; ?>
 
         <div class="card-block">
