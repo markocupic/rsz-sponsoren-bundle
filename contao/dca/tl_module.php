@@ -10,17 +10,17 @@
  * @link https://github.com/markocupic/rsz-sponsoren-bundle
  */
 
-use Markocupic\RszSponsorenBundle\Controller\FrontendModule\RszSponsorenListingModuleController;
+use Markocupic\RszSponsorenBundle\Controller\FrontendModule\RszSponsorenListingController;
 
 /**
  * Frontend modules
  */
-$GLOBALS['TL_DCA']['tl_module']['palettes'][RszSponsorenListingModuleController::TYPE] = '
-{title_legend},name,headline,type;
-{config_legend},rszSponsorLevel;
-{template_legend:hide},customTpl;
-{protected_legend:hide},protected;
-{expert_legend:hide},guests,cssID
+$GLOBALS['TL_DCA']['tl_module']['palettes'][RszSponsorenListingController::TYPE] = '
+    {title_legend},name,headline,type;
+    {config_legend},rszSponsorLevel;
+    {template_legend:hide},customTpl;
+    {protected_legend:hide},protected;
+    {expert_legend:hide},guests,cssID
 ';
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['rszSponsorLevel'] = [

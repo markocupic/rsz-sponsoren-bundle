@@ -16,18 +16,19 @@ namespace Markocupic\RszSponsorenBundle\Controller\FrontendModule;
 
 use Contao\CoreBundle\Controller\FrontendModule\AbstractFrontendModuleController;
 use Contao\CoreBundle\DependencyInjection\Attribute\AsFrontendModule;
+use Contao\CoreBundle\Twig\FragmentTemplate;
+use Contao\FilesModel;
 use Contao\ModuleModel;
-use Contao\Template;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
 use Markocupic\RszSponsorenBundle\Model\SponsorenModel;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-#[AsFrontendModule(RszSponsorenListingModuleController::TYPE, category:'rsz_frontend_modules', template: 'mod_rsz_sponsoren_listing_module')]
-class RszSponsorenListingModuleController extends AbstractFrontendModuleController
+#[AsFrontendModule(RszSponsorenListingController::TYPE, category:'rsz_frontend_modules')]
+class RszSponsorenListingController extends AbstractFrontendModuleController
 {
-    public const TYPE = 'rsz_sponsoren_listing_module';
+    public const TYPE = 'rsz_sponsoren_listing';
 
     public function __construct(
         private readonly Connection $connection,
@@ -37,7 +38,7 @@ class RszSponsorenListingModuleController extends AbstractFrontendModuleControll
     /**
      * @throws Exception
      */
-    protected function getResponse(Template $template, ModuleModel $model, Request $request): Response
+    protected function getResponse(FragmentTemplate $template, ModuleModel $model, Request $request): Response
     {
         $arrSponsoren = [];
 
@@ -51,11 +52,17 @@ class RszSponsorenListingModuleController extends AbstractFrontendModuleControll
 
         while (false !== ($row = $result->fetchAssociative())) {
             if (null !== ($objSponsor = SponsorenModel::findByPk($row['id']))) {
-                $arrSponsoren[] = $objSponsor;
+                $arrSponsor = $objSponsor->row();
+
+                if ($objSponsor->addImage && $objSponsor->singleSRC) {
+                    $objFile = FilesModel::findByUuid($objSponsor->singleSRC);
+                    $arrSponsor['imagePath'] = $objFile->path;
+                }
+                $arrSponsoren[] = $arrSponsor;
             }
         }
 
-        $template->arrSponsoren = $arrSponsoren;
+        $template->set('sponsoren', $arrSponsoren);
 
         return $template->getResponse();
     }

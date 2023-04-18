@@ -10,7 +10,7 @@
  * @link https://github.com/markocupic/rsz-sponsoren-bundle
  */
 
-use Markocupic\RszSponsorenBundle\Controller\FrontendModule\RszSponsorenListingModuleController;
+use Markocupic\RszSponsorenBundle\Controller\FrontendModule\RszSponsorenListingController;
 
 /**
  * Backend modules
@@ -22,4 +22,4 @@ $GLOBALS['TL_LANG']['MOD']['rsz_sponsoren'] = ['RSZ Sponsoren und Gönner', 'Adm
 * Frontend modules
 */
 $GLOBALS['TL_LANG']['FMD']['rsz_frontend_modules'] = 'RSZ Frontendmodule';
-$GLOBALS['TL_LANG']['FMD'][RszSponsorenListingModuleController::TYPE] = ['RSZ Sponsorenliste', 'Erstellen Sie eine RSZ Sponsorenliste'];
+$GLOBALS['TL_LANG']['FMD'][RszSponsorenListingController::TYPE] = ['RSZ Sponsorenliste', 'Erstellen Sie eine RSZ Sponsorenliste'];

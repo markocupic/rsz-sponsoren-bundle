@@ -1,0 +1,67 @@
+{# frontend_module/rsz_sponsoren_listing.html.twig #}
+
+{% trans_default_domain 'contao_default' %}
+
+{% extends "@Contao/frontend_module/_base.html.twig" %}
+
+{% block content %}
+
+    <div class="macy-grid-container ms-0 me-0 card-columns position-relative">
+        {% for sponsor in sponsoren %}
+            <div class="card m-0 p-0 d-flex">
+                {% if sponsor.addImage|default %}
+                    <div class="m-3 p-3" style="border:1px solid lightgrey">
+                        <div class="ratio ratio-1x1">
+                            <div class="d-flex align-items-center">
+                                {% if sponsor.website|default %}
+                                    <a href="{{ sponsor.website }}">
+                                {% endif %}
+                                    <img class="card-img-top img-fluid" src="{{ sponsor.imagePath|default }}" alt="Logo {{ sponsor.company }}">
+                                {% if sponsor.website|default %}
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+                <div class="card-block m-3">
+                    <div>
+                        <h2 class="mt-3 card-title">{{ sponsor.company }}</h2>
+                    </div>
+
+                    {% if sponsor.street|default %}
+                        <div>{{ sponsor.street }}</div>
+                    {% endif %}
+
+                    {% if sponsor.postal|default and sponsor.city|default %}
+                        <div>{{ sponsor.postal }} {{ sponsor.city }}</div>
+                    {% endif %}
+
+                    {% if sponsor.info1|default %}
+                        <div>{{ sponsor.info1 }}</div>
+                    {% endif %}
+
+                    {% if sponsor.info2|default %}
+                        <div>{{ sponsor.info2 }}</div>
+                    {% endif %}
+
+                    {% if sponsor.info3|default %}
+                        <div>{{ sponsor.info3 }}</div>
+                    {% endif %}
+
+                    {% if sponsor.phone|default %}
+                        <div>{{ sponsor.phone }}</div>
+                    {% endif %}
+
+                    {% if sponsor.website|default %}
+                        <div>
+                            <a href="{{ sponsor.website }}">{{ sponsor.website }}</a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}
