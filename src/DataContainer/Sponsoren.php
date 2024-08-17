@@ -20,7 +20,7 @@ use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\CoreBundle\Security\ContaoCorePermissions;
 use Contao\Image;
 use Contao\StringUtil;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Bundle\SecurityBundle\Security;
 
 class Sponsoren extends Backend
 {
@@ -30,8 +30,7 @@ class Sponsoren extends Backend
     public function __construct(
         private readonly Security $security,
         private readonly ContaoFramework $framework,
-    )
-    {
+    ) {
         $this->image = $this->framework->getAdapter(Image::class);
         $this->stringUtil = $this->framework->getAdapter(StringUtil::class);
     }
@@ -50,7 +49,6 @@ class Sponsoren extends Backend
      */
     public function toggleIcon($row, $href, $label, $title, $icon, $attributes)
     {
-
         if (!$this->security->isGranted(ContaoCorePermissions::USER_CAN_EDIT_FIELD_OF_TABLE, 'tl_sponsoren::invisible')) {
             return '';
         }
